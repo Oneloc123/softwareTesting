@@ -1,0 +1,15 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.auth/
+.env
+.env.*
+!.env.example
+evidence/
+**/test-data/files/generated/
+*.tsbuildinfo
+.idea/
+*.zip
+*.xlsx

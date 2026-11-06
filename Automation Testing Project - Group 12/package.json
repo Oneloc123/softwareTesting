@@ -1,0 +1,31 @@
+{
+  "name": "horilla-playwright-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright TypeScript automation for 105 standardized Horilla V2 test cases",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:candidates": "playwright test nam/tests/01-recruitment",
+    "test:assets": "playwright test nam/tests/02-assets",
+    "test:meetings": "playwright test nam/tests/03-performance",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:list": "playwright test --list",
+    "typecheck": "tsc --noEmit",
+    "report": "node nam/scripts/show-report.cjs",
+    "check:coverage": "node nam/scripts/check-coverage.cjs",
+    "prepare:data": "node nam/scripts/prepare-test-files.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^22.0.0",
+    "dotenv": "^16.4.7",
+    "fflate": "^0.8.2",
+    "typescript": "^5.9.3"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
