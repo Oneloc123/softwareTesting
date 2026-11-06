@@ -1,0 +1,14 @@
+{
+  "category": "Laptops",
+  "alternateCategory": "Phones",
+  "cost": "1500.00",
+  "updatedCost": "1600.50",
+  "status": "Available",
+  "unavailableStatus": "Not-Available",
+  "batch": "LOT-1-2026-01",
+  "employee": "Daniel Nguyen (NTI0002)",
+  "healthyReturn": "Healthy",
+  "damagedReturn": "Major damage",
+  "nameMaxLength": 255,
+  "serialMaxLength": 30
+}
