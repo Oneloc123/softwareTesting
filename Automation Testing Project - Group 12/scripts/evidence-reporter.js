@@ -54,7 +54,7 @@ class EvidenceReporter {
   onTestEnd(test, result) {
     const relativeFile = path.relative(rootDir, test.location.file);
     const firstFolder = relativeFile.split(path.sep)[0];
-    const project = ['hieu', 'hoa', 'loc', 'nam'].includes(firstFolder) ? firstFolder : 'suite';
+    const project = ['hieu', 'hoa', 'loc', 'nam', 'anh'].includes(firstFolder) ? firstFolder : 'suite';
     const title = test.titlePath().join(' › ');
     const identity = `${project}-${relativeFile}-${test.location.line}-${title}`;
     const digest = crypto.createHash('sha1').update(identity).digest('hex').slice(0, 8);

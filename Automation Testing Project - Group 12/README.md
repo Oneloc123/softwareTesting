@@ -42,6 +42,7 @@ Automation Testing Project - Group 12/
 ├── hoa/                          # Test của thành viên Hòa
 ├── loc/                          # Test của thành viên Lộc
 ├── nam/                          # Test, Page Object, fixture và test data của Nam
+├── anh/                          # Attendance, Onboarding, Offboarding của Ngọc Ánh
 ├── scripts/                      # Reporter lưu ảnh/log minh chứng
 ├── Test Report - Group 12/        # HTML, JSON và JUnit XML sau khi chạy
 ├── Envidence - Group12/           # Screenshot và log theo từng lần chạy
@@ -51,6 +52,8 @@ Automation Testing Project - Group 12/
 ├── .env.example
 └── README.md
 ```
+
+Bài của Ngọc Ánh cũng được lưu trong `anh/test-cases/` (file Excel test case) và `anh/references/` (tài liệu JavaScript giao diện tham khảo).
 
 Toàn bộ file kiểm thử và cấu hình được sử dụng khi chạy đều là `.js`. Các file `.ts`, `tsconfig.json` và cấu hình Playwright riêng của thư mục thành viên đã được loại bỏ để tránh chạy nhầm cấu hình.
 
@@ -75,6 +78,7 @@ npm run test:hieu
 npm run test:hoa
 npm run test:loc
 npm run test:nam
+npm run test:anh
 ```
 
 Chạy giao diện Playwright UI hoặc chế độ hiển thị trình duyệt:
@@ -84,13 +88,24 @@ npm run test:ui
 npm run test:headed
 ```
 
+Chạy riêng từng bộ của Ngọc Ánh:
+
+```bash
+npm run auth:save:anh
+npm run test:anh:attendance
+npm run test:anh:onboarding
+npm run test:anh:offboarding
+```
+
+Lệnh `auth:save:anh` mở Chromium để đăng nhập thủ công và lưu phiên tại `anh/playwright/.auth/user.json`. Cần thực hiện trước khi chạy `npm run test:anh`; không chia sẻ hoặc commit storage state này. Khi chạy toàn bộ `npm test`, cũng cần tạo phiên này trước để các test của Anh có thể được thực thi.
+
 Kiểm tra bộ 105 case Candidates, Assets và Performance Meetings của Nam:
 
 ```bash
 npm run check:coverage
 ```
 
-Một số test tạo/cập nhật dữ liệu demo. Những test này cần tài khoản phù hợp và có thể bị bỏ qua khi thiếu tài khoản nhân viên hoặc khi đặt `ALLOW_MUTATIONS=false`. Project cấu hình `WORKERS=1` vì các nhóm test sử dụng tài khoản demo và dữ liệu dùng chung; không tăng số worker nếu chưa tách tài khoản/dữ liệu.
+Một số test tạo/cập nhật dữ liệu demo. Những test này cần tài khoản phù hợp và có thể bị bỏ qua khi thiếu tài khoản nhân viên hoặc khi đặt `ALLOW_MUTATIONS=false`. Các bộ Attendance, Onboarding và Offboarding của Ngọc Ánh có các cờ riêng `RUN_ATTENDANCE_MUTATIONS`, `RUN_ONBOARDING_MUTATIONS`, `RUN_OFFBOARDING_MUTATIONS` (mặc định `false`) cùng cờ xác nhận riêng cho thao tác clock, gửi email, xóa và khóa tài khoản. Project cấu hình `WORKERS=1` vì các nhóm test sử dụng tài khoản demo và dữ liệu dùng chung; không tăng số worker nếu chưa tách tài khoản/dữ liệu.
 
 ## 5. Test Report
 

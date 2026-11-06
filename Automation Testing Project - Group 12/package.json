@@ -15,7 +15,12 @@
     "test:ui": "playwright test --ui",
     "report": "playwright show-report \"Test Report - Group 12/html-report\"",
     "check:coverage": "node nam/scripts/check-coverage.cjs",
-    "prepare:data": "node nam/scripts/prepare-test-files.cjs"
+    "prepare:data": "node nam/scripts/prepare-test-files.cjs",
+    "test:anh": "playwright test --project=anh",
+    "test:anh:attendance": "playwright test --project=anh anh/tests/attendance.spec.js",
+    "test:anh:onboarding": "playwright test --project=anh anh/tests/onboarding.spec.js",
+    "test:anh:offboarding": "playwright test --project=anh anh/tests/offboarding.spec.js",
+    "auth:save:anh": "node anh/scripts/save-auth.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

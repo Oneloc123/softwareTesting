@@ -64,5 +64,13 @@ module.exports = defineConfig({
       name: 'nam', testDir: './nam/tests', testMatch: /.*\.spec\.js/,
       dependencies: ['nam-setup'], use: { storageState: 'nam/playwright/.auth/admin.json' },
     },
+    {
+      name: 'anh',
+      testDir: './anh/tests',
+      testMatch: /.*\.spec\.js/,
+      use: {
+        storageState: path.resolve(__dirname, 'anh', process.env.ANH_STORAGE_STATE || 'playwright/.auth/user.json'),
+      },
+    },
   ],
 });
