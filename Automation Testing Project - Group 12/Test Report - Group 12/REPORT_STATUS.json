@@ -1,0 +1,22 @@
+{
+  "group": 12,
+  "executionStatus": "NOT_RUN_IN_PREPARATION_ENVIRONMENT",
+  "sourceValidation": {
+    "javascriptSyntax": "PASSED",
+    "relativeModulePaths": "PASSED",
+    "namTestCaseCoverage": "PASSED",
+    "namTestCaseIds": 105,
+    "namCaseBreakdown": {
+      "Candidates": 35,
+      "Assets": 35,
+      "Performance Meetings": 35
+    }
+  },
+  "executionReport": null,
+  "message": "The supplied archive did not include runnable prior execution evidence. npm ci timed out in the preparation environment, so the Playwright suite could not be executed here. Run npm test after installing dependencies and configuring .env to generate the real HTML, JSON, and JUnit reports.",
+  "expectedOutputs": [
+    "html-report/index.html",
+    "results.json",
+    "junit.xml"
+  ]
+}
