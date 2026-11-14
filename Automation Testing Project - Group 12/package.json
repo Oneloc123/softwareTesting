@@ -1,0 +1,31 @@
+{
+  "name": "horilla-automation-testing-group-12",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unified JavaScript Playwright automation project for Group 12",
+  "scripts": {
+    "test": "playwright test",
+    "test:list": "playwright test --list",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:hieu": "playwright test --project=hieu",
+    "test:hoa": "playwright test --project=hoa",
+    "test:loc": "playwright test --project=loc",
+    "test:nam": "playwright test --project=nam",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report \"Test Report - Group 12/html-report\"",
+    "check:coverage": "node nam/scripts/check-coverage.cjs",
+    "prepare:data": "node nam/scripts/prepare-test-files.cjs",
+    "test:anh": "playwright test --project=anh",
+    "test:anh:attendance": "playwright test --project=anh anh/tests/attendance.spec.js",
+    "test:anh:onboarding": "playwright test --project=anh anh/tests/onboarding.spec.js",
+    "test:anh:offboarding": "playwright test --project=anh anh/tests/offboarding.spec.js",
+    "auth:save:anh": "node anh/scripts/save-auth.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "dotenv": "^16.4.7",
+    "fflate": "^0.8.2"
+  },
+  "main": "playwright.config.js"
+}

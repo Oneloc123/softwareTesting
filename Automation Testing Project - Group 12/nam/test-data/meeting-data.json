@@ -1,0 +1,8 @@
+{
+  "employee": "Daniel Nguyen (NTI0002)",
+  "alternateEmployee": "Emily Carter (NTI0001)",
+  "manager": "Marcus Johnson (NTI0004)",
+  "alternateManager": "Priya Raman (NTI0003)",
+  "template": "Performance Review",
+  "titleMaxLength": 100
+}

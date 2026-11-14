@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "CAN-V2-01",
+    "title": "Tạo ứng viên đầy đủ thông tin — P1",
+    "precondition": "C_FULL; có file CV thật",
+    "input": "C_FULL với email duy nhất",
+    "steps": "1. Mở Candidates → Create.<br>2. Chọn Recruitment rồi chờ Job Position.<br>3. Nhập các trường và chọn file CV.<br>4. Save, tìm email, mở lại hồ sơ.",
+    "expected": "Chỉ có một bản ghi mới; các trường đã nhập hiển thị đúng khi mở lại. CV được lưu gắn đúng ứng viên. Không yêu cầu toast chưa xác minh.",
+    "evidence": "E-CAN-02/03/04, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-02",
+    "title": "Tạo với thông tin tối thiểu — P1",
+    "precondition": "Email chưa tồn tại",
+    "input": "C_MIN; các trường tùy chọn để trống, giữ default hợp lệ",
+    "steps": "1. Create.<br>2. Nhập C_MIN, kiểm tra lựa chọn động.<br>3. Save và mở lại từ danh sách.",
+    "expected": "Tạo được ứng viên với dữ liệu tối thiểu; thông tin tùy chọn không tự nhận dữ liệu từ ứng viên khác. Không khẳng định Job Position luôn bắt buộc hoặc luôn tùy chọn cho mọi đợt.",
+    "evidence": "E-CAN-02/03, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-03",
+    "title": "Lưu form mới không nhập liệu — P1",
+    "precondition": "Create mới, giữ default",
+    "input": "Name/Recruitment/Email trống",
+    "steps": "1. Mở Create mới.<br>2. Save.<br>3. Đọc validity và vị trí focus.",
+    "expected": "Browser chặn submit; Name không hợp lệ vì thiếu giá trị và nhận focus. Không tạo bản ghi; không yêu cầu đồng thời hiện lỗi dưới mọi trường.",
+    "evidence": "E-CAN-06, Probe",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-04",
+    "title": "Thiếu riêng Name — P1",
+    "precondition": "C_MIN hợp lệ ngoài Name",
+    "input": "Name rỗng",
+    "steps": "1. Điền các trường còn lại.<br>2. Để Name rỗng.<br>3. Save.",
+    "expected": "Name không hợp lệ; submit bị chặn; không tạo ứng viên bằng email của case.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-05",
+    "title": "Thiếu riêng Recruitment — P1",
+    "precondition": "Create mới, chưa chọn đợt",
+    "input": "C_MIN nhưng Recruitment ở placeholder",
+    "steps": "1. Nhập Name/Email.<br>2. Không chọn Recruitment.<br>3. Save.",
+    "expected": "Recruitment bị đánh dấu thiếu lựa chọn; không tạo ứng viên.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-06",
+    "title": "Thiếu riêng Email — P1",
+    "precondition": "C_MIN hợp lệ ngoài Email",
+    "input": "Email rỗng",
+    "steps": "1. Điền các trường khác.<br>2. Để Email rỗng.<br>3. Save.",
+    "expected": "Email không hợp lệ do thiếu giá trị; không tạo ứng viên.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-07",
+    "title": "Email thiếu miền — P1",
+    "precondition": "C_MIN",
+    "input": "Email=`vana@`",
+    "steps": "1. Nhập C_MIN với email này.<br>2. Save.<br>3. Kiểm tra validity của Email.",
+    "expected": "Email bị chặn vì định dạng không hợp lệ; không tạo bản ghi. Không phụ thuộc câu lỗi theo ngôn ngữ browser.",
+    "evidence": "E-CAN-02, HTML type=email",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-08",
+    "title": "Email thiếu ký tự @ — P1",
+    "precondition": "C_MIN",
+    "input": "Email=`vana.com`",
+    "steps": "1. Nhập C_MIN với email này.<br>2. Save.",
+    "expected": "Email không hợp lệ; không tạo ứng viên. Không dùng `vana@com` làm dữ liệu chắc chắn sai khi chưa có quy tắc miền.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-09",
+    "title": "Name 99 ký tự — P2",
+    "precondition": "C_MIN",
+    "input": "Name=`A` lặp 99; email riêng",
+    "steps": "1. Nhập Name và phần còn lại C_MIN.<br>2. Save.<br>3. Mở lại hồ sơ.",
+    "expected": "Tạo được bản ghi, Name được lưu đủ 99 ký tự.",
+    "evidence": "E-CAN-02, HTML maxlength=100; tiêu chí lưu UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-10",
+    "title": "Name đúng 100 ký tự — P2",
+    "precondition": "C_MIN",
+    "input": "Name=`A` lặp 100; email riêng",
+    "steps": "1. Nhập đủ 100 ký tự.<br>2. Save.<br>3. Mở lại hồ sơ.",
+    "expected": "Tạo được bản ghi, Name lưu đủ 100 ký tự, không cắt mất ký tự cuối.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-11",
+    "title": "Chặn ký tự thứ 101 của Name trên UI — P2",
+    "precondition": "Create mới",
+    "input": "Chuỗi 100 ký tự rồi gõ thêm B",
+    "steps": "1. Nhập 100 ký tự bằng thao tác người dùng.<br>2. Gõ thêm B.<br>3. Đọc value; không Save.",
+    "expected": "Value không vượt 100 ký tự; ký tự thứ 101 không được thêm. Đây là kiểm tra UI, không chứng minh backend từ chối request vượt giới hạn.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-12",
+    "title": "Giới hạn Mobile 15 ký tự trên UI — P2",
+    "precondition": "Create mới",
+    "input": "`123456789012345` rồi gõ `6`",
+    "steps": "1. Nhập 15 chữ số.<br>2. Gõ ký tự tiếp theo.<br>3. Đọc value, không Save.",
+    "expected": "Mobile giữ tối đa 15 ký tự. Quy tắc nhận chữ/ký tự đặc biệt phải làm rõ riêng.",
+    "evidence": "E-CAN-02, HTML",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-13",
+    "title": "Portfolio không phải URL — P2",
+    "precondition": "C_MIN",
+    "input": "Portfolio=`abcxyz123`",
+    "steps": "1. Điền C_MIN và Portfolio.<br>2. Save.<br>3. Đọc validity của Portfolio.",
+    "expected": "Portfolio có typeMismatch; submit bị chặn; không tạo bản ghi bằng email case.",
+    "evidence": "E-CAN-02, HTML type=url",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-14",
+    "title": "Job Position phụ thuộc Recruitment — P1",
+    "precondition": "Có 2 đợt với lựa chọn vị trí khác nhau",
+    "input": "Software Engineer Hiring và Sales Representative Hiring, nếu vẫn tồn tại",
+    "steps": "1. Chọn đợt thứ nhất; đợi nạp và ghi option vị trí.<br>2. Chuyển sang đợt thứ hai; đợi nạp.<br>3. Đọc option và giá trị chọn.",
+    "expected": "Vị trí tương ứng đợt mới; vị trí của đợt cũ không còn được giữ nếu không thuộc đợt mới. Không lưu dữ liệu không phù hợp giữa hai đợt.",
+    "evidence": "E-CAN-03, UI/DOM động",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-15",
+    "title": "Tìm theo tên đầy đủ — P1",
+    "precondition": "C_SEARCH active; đã bỏ filter ngoài phạm vi",
+    "input": "Tên đầy đủ duy nhất của fixture",
+    "steps": "1. Nhập Search.<br>2. Enter, chờ kết quả.<br>3. Kiểm tra tên và email/ID.",
+    "expected": "Có đúng fixture cần tìm; không chứa bản ghi đối chứng có tên không khớp. Không dựa riêng vào tên nếu demo có tên trùng.",
+    "evidence": "E-CAN-01, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-16",
+    "title": "Tìm từ khóa không tồn tại — P1",
+    "precondition": "Xác nhận không có tên chứa token",
+    "input": "`notfoundcandidate_<RUN>`",
+    "steps": "1. Nhập Search.<br>2. Enter.<br>3. Chờ empty state.",
+    "expected": "Không còn hàng ứng viên; hiển thị `No filtered records found at the moment`.",
+    "evidence": "E-CAN-06, Probe",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-17",
+    "title": "Bỏ điều kiện Search — P2",
+    "precondition": "Search đang không có kết quả; baseline đã ghi",
+    "input": "Search rỗng",
+    "steps": "1. Xóa Search rồi Enter.<br>2. Chờ danh sách.<br>3. So với phạm vi trước Search.",
+    "expected": "Fixture active baseline xuất hiện lại; không còn tag Search cũ. Mặc định Active=True được tính trong phạm vi so sánh.",
+    "evidence": "E-CAN-01/06, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-18",
+    "title": "Lọc Job Position — P1",
+    "precondition": "C_FILTER có ít nhất 1 dòng khớp và 1 dòng khác",
+    "input": "Job Position thực tế đã ghi",
+    "steps": "1. Filter → Job Position.<br>2. Chọn giá trị, Apply.<br>3. Kiểm tra mọi hàng qua các trang.",
+    "expected": "Có fixture dương; chỉ hiển thị ứng viên thuộc vị trí đã chọn; loại fixture âm.",
+    "evidence": "E-CAN-01, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-19",
+    "title": "Lọc Stage — P1",
+    "precondition": "Fixture thuộc 2 stage đã xác nhận; cùng phạm vi active",
+    "input": "Stage cụ thể gắn đúng Recruitment",
+    "steps": "1. Filter → Stage.<br>2. Chọn stage và Apply.<br>3. Mở About của các kết quả để đối chiếu Current Stage.",
+    "expected": "Kết quả thuộc stage đã chọn; fixture khác stage bị loại. Không đồng nhất Stage, Stage Type và Hired?.",
+    "evidence": "E-CAN-01/04, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-20",
+    "title": "Lọc Hired? — P2",
+    "precondition": "Có fixture Hired=Yes và No",
+    "input": "Hired?=Yes",
+    "steps": "1. Filter → Hired?=Yes → Apply.<br>2. Mở About đối chiếu Hired.",
+    "expected": "Có bản ghi dương; kết quả đều Hired=Yes; bản ghi No bị loại. Không chuyển ứng viên thành nhân viên để tạo tiền điều kiện trong case đọc này.",
+    "evidence": "E-CAN-01/04, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-21",
+    "title": "Lọc Canceled? — P2",
+    "precondition": "Có fixture Canceled bật/tắt; active đồng nhất",
+    "input": "Canceled?=Yes",
+    "steps": "1. Chọn Canceled?=Yes trong Filter.<br>2. Apply.<br>3. Đối chiếu ID fixture và trạng thái đã chuẩn bị.",
+    "expected": "Chỉ có ứng viên canceled trong phạm vi các filter còn lại. Không coi Canceled là Rejected.",
+    "evidence": "E-CAN-01/02, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-22",
+    "title": "Kết hợp Job Position và Stage — P2",
+    "precondition": "Fixture gồm khớp cả hai, chỉ khớp một, không khớp",
+    "input": "Vị trí và stage cùng đợt",
+    "steps": "1. Chọn cả hai filter.<br>2. Apply.<br>3. Đối chiếu tập ID mong đợi.",
+    "expected": "Chỉ giữ ứng viên thỏa đồng thời hai tiêu chí; có fixture dương.",
+    "evidence": "E-CAN-01, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-23",
+    "title": "Phân trang trong cùng phạm vi — P2",
+    "precondition": "C_PAGE, baseline filter cố định",
+    "input": "Trang 1 và 2",
+    "steps": "1. Ghi ID/email trang 1 và số trang.<br>2. Next, chờ số trang 2.<br>3. Ghi ID/email trang 2.<br>4. Previous.",
+    "expected": "Trang 2 khác trang 1, không lặp ID khi dữ liệu không đổi; quay lại đúng trang 1. Giữ filter/sort. Thiếu trang 2: Blocked vì fixture.",
+    "evidence": "E-CAN-01, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-24",
+    "title": "Sắp xếp theo Candidates/Name — P2",
+    "precondition": "Có tên ASCII phân biệt; phạm vi ổn định",
+    "input": "Name tăng rồi giảm",
+    "steps": "1. Nhấn header Candidates để chọn chiều sort.<br>2. Đọc tên và trạng thái sort.<br>3. Đảo chiều và đối chiếu.",
+    "expected": "Tên theo chiều đã chọn; không mất bản ghi. Dùng dữ liệu ASCII để không tự áp quy tắc collation tiếng Việt. Không dùng Applied Date vì chưa thấy cột đó.",
+    "evidence": "E-CAN-01, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-25",
+    "title": "Chuyển List và Card — P3",
+    "precondition": "Có ứng viên; ghi search/filter",
+    "input": "List → Card → List",
+    "steps": "1. Chọn Card.<br>2. Đối chiếu các fixture.<br>3. Chọn List.",
+    "expected": "Mỗi chế độ hiển thị đúng cùng phạm vi ứng viên; không thêm/mất bản ghi nghiệp vụ do đổi view.",
+    "evidence": "E-CAN-01, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-26",
+    "title": "Xem About — P1",
+    "precondition": "Có fixture biết Name/Email/Recruitment/Position/Stage",
+    "input": "ID fixture",
+    "steps": "1. Bấm tên trong danh sách.<br>2. Mở About.<br>3. Đối chiếu dữ liệu đã chuẩn bị.",
+    "expected": "Hiển thị đúng người và Recruitment Information; URL/detail tham chiếu đúng ID. Không bắt buộc CV luôn tồn tại.",
+    "evidence": "E-CAN-04, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-27",
+    "title": "Mở History của ứng viên — P2",
+    "precondition": "Fixture có lịch sử do setup tạo và đã lưu mốc thay đổi",
+    "input": "ID, sự kiện cập nhật đã biết",
+    "steps": "1. Mở chi tiết → History.<br>2. Tìm sự kiện của fixture.",
+    "expected": "Hiển thị lịch sử của đúng ứng viên, gồm thay đổi đã chuẩn bị. Nếu setup chưa tạo/không có sự kiện cần thiết: Blocked; không giả định mọi chuyển stage đều ghi lịch sử.",
+    "evidence": "E-CAN-04, UI; cần fixture lịch sử",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-28",
+    "title": "Cập nhật Mobile — P1",
+    "precondition": "C_EDIT riêng; ghi dữ liệu ban đầu",
+    "input": "Mobile=`0988776655`",
+    "steps": "1. Mở Edit của đúng email/ID.<br>2. Chỉ đổi Mobile, Save.<br>3. Tải lại và mở lại hồ sơ.",
+    "expected": "Mobile mới tồn tại sau reload; Name/Email/Recruitment không đổi. Không khẳng định đã kiểm tra database.",
+    "evidence": "E-CAN-02/04, UI Edit",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-29",
+    "title": "Rời Edit không lưu — P2",
+    "precondition": "C_EDIT và giá trị cũ đã ghi",
+    "input": "Mobile mới khác giá trị cũ",
+    "steps": "1. Edit, đổi Mobile.<br>2. Bấm Back, không Save.<br>3. Mở lại Edit.",
+    "expected": "Không có thay đổi dữ liệu đã lưu; Mobile vẫn là giá trị cũ. Không bắt buộc phải có hộp thoại unsaved changes.",
+    "evidence": "E-CAN-02, UI Back",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-30",
+    "title": "Name tiếng Việt — P2",
+    "precondition": "C_MIN, email riêng",
+    "input": "Name=`Trần Nguyễn Đăng Khoa <RUN>` trong 100 ký tự",
+    "steps": "1. Tạo ứng viên tên có dấu.<br>2. Save.<br>3. Tìm và mở lại.",
+    "expected": "Lưu và hiển thị đúng dấu tiếng Việt. Việc trim khoảng trắng đầu/cuối là yêu cầu riêng đang chờ xác nhận, không gộp vào case này.",
+    "evidence": "E-CAN-02, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-31",
+    "title": "Hủy Delete — P1",
+    "precondition": "C_DELETE riêng và C_OTHER",
+    "input": "ID fixture",
+    "steps": "1. Chọn Delete đúng hàng.<br>2. Tại xác nhận chọn Cancel.<br>3. Reload, tìm email.",
+    "expected": "Fixture và đối chứng vẫn tồn tại; không thay đổi dữ liệu đã lưu. Ghi loại dialog/nút thực tế khi chạy.",
+    "evidence": "E-CAN-01, UI Delete; chưa chạy xác nhận",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-32",
+    "title": "Xóa một ứng viên — P1",
+    "precondition": "Fixture riêng chưa chuyển thành Employee, có thể xóa; xác định không có phụ thuộc cản xóa",
+    "input": "Email/ID fixture",
+    "steps": "1. Delete đúng hàng và xác nhận.<br>2. Reload, tìm email.<br>3. Tìm C_OTHER.",
+    "expected": "Fixture đã bị xóa khỏi danh sách sau reload; C_OTHER vẫn tồn tại. Không dùng URL giả để xác nhận và không xóa seed.",
+    "evidence": "E-CAN-01, UI Delete; chưa thực thi",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-33",
+    "title": "Xóa hàng loạt — P1",
+    "precondition": "C_BULK[3] riêng có thể xóa; C_OTHER",
+    "input": "3 ID fixture",
+    "steps": "1. Chỉ tick 3 dòng fixture.<br>2. Actions → Delete, kiểm tra phạm vi chọn và xác nhận.<br>3. Reload, tìm từng email và đối chứng.",
+    "expected": "Đúng 3 fixture không còn; đối chứng không bị xóa. Không dùng Select toàn bộ dataset demo.",
+    "evidence": "E-CAN-05, UI",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-34",
+    "title": "Xuất danh sách — P2",
+    "precondition": "Có fixture trong phạm vi lọc; ghi phạm vi/cột trong dialog export",
+    "input": "Export định dạng đang được UI hỗ trợ",
+    "steps": "1. Actions → Export.<br>2. Chọn phạm vi/cột/định dạng thực tế và ghi lại.<br>3. Tải file, mở đọc dữ liệu.",
+    "expected": "Tệp có nội dung, đúng định dạng được chọn; dữ liệu/cột khớp phạm vi xác nhận trong dialog. Không mặc nhiên coi export chỉ gồm trang hiện tại.",
+    "evidence": "E-CAN-05, UI; dialog cần đọc khi chạy",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "CAN-V2-35",
+    "title": "Xem/tải Resume đã lưu — P2",
+    "precondition": "Fixture do tester tạo có CV hợp lệ, biết nội dung; file không rỗng",
+    "input": "CV riêng của fixture",
+    "steps": "1. Mở chi tiết → Resume hoặc View đúng hồ sơ.<br>2. Dùng thao tác xem/tải mà UI cung cấp.<br>3. Đối chiếu nội dung; bắt download khi có.",
+    "expected": "Mở hoặc tải đúng tài liệu của fixture, đọc được và không rỗng. Không chấp nhận link `/media/` đơn thuần là bằng chứng có CV.",
+    "evidence": "E-CAN-04, UI; cần fixture file",
+    "source": "docs/test-cases/Recruitment Candidates.md"
+  },
+  {
+    "id": "AST-V2-01",
+    "title": "Tạo tài sản đầy đủ — P1",
+    "precondition": "A_FULL, serial duy nhất, category/batch đang tồn tại",
+    "input": "A_FULL",
+    "steps": "1. Assets → Create.<br>2. Điền các trường, giữ Quantity=1.<br>3. Save.<br>4. Tìm theo Serial và mở chi tiết.",
+    "expected": "Có đúng một tài sản mới, Name/Serial/Category/Cost/Purchase Date/Batch đúng khi mở lại. Với Expiry/Notify, mở Edit để đối chiếu nếu chi tiết không hiển thị.",
+    "evidence": "E-AST-01/02, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-02",
+    "title": "Tạo không nhập Batch và các trường tùy chọn — P1",
+    "precondition": "A_MIN",
+    "input": "A_MIN; Batch/Description/Expiry trống",
+    "steps": "1. Create.<br>2. Điền A_MIN, giữ default hợp lệ.<br>3. Save và mở lại.",
+    "expected": "Tạo được tài sản không có Batch; các trường bắt buộc vẫn đầy đủ. Không coi Batch Number là Serial No.",
+    "evidence": "E-AST-02/03, HTML/UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-03",
+    "title": "Save form mới, giữ default — P1",
+    "precondition": "Create mới",
+    "input": "Name/Serial/Cost/Category trống; Date/Quantity giữ default",
+    "steps": "1. Mở Create.<br>2. Save.<br>3. Chờ form trả lỗi.",
+    "expected": "Không tạo tài sản; thấy `This field is required.` tại Name, Serial, Cost, Category. Không gọi đây là mọi trường đều rỗng vì một số có default.",
+    "evidence": "E-AST-03, Probe",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-04",
+    "title": "Thiếu Purchase Date — P1",
+    "precondition": "A_MIN hợp lệ ngoài Purchase Date",
+    "input": "Purchase Date rỗng",
+    "steps": "1. Điền các trường khác.<br>2. Xóa ngày mặc định.<br>3. Save.",
+    "expected": "Form không được lưu; Purchase Date có lỗi thiếu dữ liệu; không xuất hiện serial của case.",
+    "evidence": "E-AST-02, HTML required; validation lưu chưa chạy",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-05",
+    "title": "Thiếu Category — P1",
+    "precondition": "A_MIN hợp lệ ngoài Category",
+    "input": "Category ở placeholder",
+    "steps": "1. Điền các trường khác.<br>2. Không chọn Category.<br>3. Save.",
+    "expected": "Category có lỗi bắt buộc; không tạo tài sản.",
+    "evidence": "E-AST-02/03",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-06",
+    "title": "Thiếu Serial No. — P1",
+    "precondition": "A_MIN hợp lệ ngoài Serial",
+    "input": "Serial rỗng",
+    "steps": "1. Nhập phần còn lại A_MIN.<br>2. Để Serial rỗng.<br>3. Save.",
+    "expected": "Serial có lỗi bắt buộc; không tạo bản ghi.",
+    "evidence": "E-AST-02/03",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-07",
+    "title": "Thiếu Cost — P1",
+    "precondition": "A_MIN hợp lệ ngoài Cost",
+    "input": "Cost rỗng",
+    "steps": "1. Điền phần còn lại.<br>2. Để Cost rỗng.<br>3. Save.",
+    "expected": "Cost có lỗi bắt buộc; không tạo tài sản. Không gán rỗng thành số 0.",
+    "evidence": "E-AST-02/03",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-08",
+    "title": "Không nhận chuỗi chữ như một Cost hợp lệ — P2",
+    "precondition": "Create mới",
+    "input": "Gõ `abcxyz` vào Cost",
+    "steps": "1. Focus Cost.<br>2. Gõ chữ bằng thao tác bàn phím.<br>3. Đọc value/validity; không Save.",
+    "expected": "Chuỗi chữ không trở thành giá trị số hợp lệ; ô trống hoặc báo badInput theo browser. Kiểm tra bất biến này, không bắt buộc một câu lỗi cụ thể.",
+    "evidence": "E-AST-02, HTML type=number",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-09",
+    "title": "Asset Name 254 ký tự — P2",
+    "precondition": "A_MIN, serial riêng",
+    "input": "Name=`A` lặp 254",
+    "steps": "1. Nhập A_MIN với tên này.<br>2. Save.<br>3. Mở lại Edit để đếm ký tự.",
+    "expected": "Lưu đủ 254 ký tự; không tự cắt tên.",
+    "evidence": "E-AST-02, HTML maxlength=255",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-10",
+    "title": "Asset Name đúng 255 ký tự — P2",
+    "precondition": "A_MIN, serial riêng",
+    "input": "Name=`A` lặp 255",
+    "steps": "1. Nhập tên và phần còn lại A_MIN.<br>2. Save.<br>3. Mở lại Edit.",
+    "expected": "Lưu được đủ 255 ký tự. Đọc field value vì danh sách có thể rút gọn hiển thị.",
+    "evidence": "E-AST-02, HTML",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-11",
+    "title": "Chặn ký tự thứ 256 của Name trên UI — P2",
+    "precondition": "Create mới",
+    "input": "255 ký tự A rồi thêm B",
+    "steps": "1. Nhập đủ 255 ký tự bằng gõ/paste.<br>2. Gõ thêm B.<br>3. Đọc value, không Save.",
+    "expected": "Name không vượt 255 ký tự. Không kết luận về request vượt giới hạn ở backend.",
+    "evidence": "E-AST-02, HTML",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-12",
+    "title": "Chặn ký tự thứ 31 của Serial trên UI — P2",
+    "precondition": "Create mới",
+    "input": "30 ký tự ASCII rồi thêm B",
+    "steps": "1. Nhập 30 ký tự Serial.<br>2. Gõ thêm ký tự.<br>3. Đọc value, không Save.",
+    "expected": "Serial không vượt 30 ký tự.",
+    "evidence": "E-AST-02, HTML maxlength=30",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-13",
+    "title": "Tên tài sản tiếng Việt và ký tự đặc biệt — P2",
+    "precondition": "A_MIN, serial riêng",
+    "input": "`Bàn làm việc thông minh @2026 (#1) <RUN>`",
+    "steps": "1. Điền tên và phần còn lại A_MIN.<br>2. Save.<br>3. Mở lại Edit/chi tiết.",
+    "expected": "Hiển thị đúng dấu và ký tự `@`, `#`, ngoặc; không bị mất dữ liệu. Không dùng payload thực thi trong case ký tự đặc biệt.",
+    "evidence": "E-AST-02, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-14",
+    "title": "Cập nhật Name và Cost — P1",
+    "precondition": "A_EDIT riêng, ghi giá trị ban đầu",
+    "input": "Name mới trong 255; Cost=`1600.50`",
+    "steps": "1. Update đúng hàng theo Serial.<br>2. Đổi Name/Cost và Save.<br>3. Reload, mở lại.",
+    "expected": "Hai giá trị mới được lưu; Serial/Category/Batch không đổi.",
+    "evidence": "E-AST-01/02, UI Update",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-15",
+    "title": "Đóng Create không Save — P2",
+    "precondition": "Ghi tập serial baseline, có serial chưa tồn tại",
+    "input": "A_MIN chưa Save",
+    "steps": "1. Create và nhập A_MIN.<br>2. Đóng bằng nút Close.<br>3. Reload, tìm Serial dự kiến.",
+    "expected": "Không có tài sản mới; đóng form không tạo dữ liệu. Không bắt buộc popup unsaved changes.",
+    "evidence": "E-AST-02, UI Close",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-16",
+    "title": "Xem chi tiết tài sản — P1",
+    "precondition": "A_QUERY biết dữ liệu đầy đủ",
+    "input": "Serial fixture",
+    "steps": "1. Chọn đúng hàng.<br>2. Mở chi tiết.<br>3. Đối chiếu các trường.",
+    "expected": "Modal xác định đúng Serial, Purchase Date, Cost, Status, Batch No., Category; không lẫn bản ghi cùng tên.",
+    "evidence": "E-AST-01, UI; đã mở seed AST-2-0046",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-17",
+    "title": "Tìm theo Asset Name — P1",
+    "precondition": "A_QUERY có tên duy nhất trong phạm vi",
+    "input": "Tên đầy đủ fixture",
+    "steps": "1. Điền Search và Enter.<br>2. Chờ kết quả.<br>3. Kiểm tra tất cả nhóm/trang kết quả.",
+    "expected": "Có fixture cần tìm; không có tài sản tên không khớp. Ghi phạm vi trường Search thực tế nếu UI cho chọn trường.",
+    "evidence": "E-AST-01, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-18",
+    "title": "Lọc theo Serial No. — P1",
+    "precondition": "Có serial fixture duy nhất",
+    "input": "Serial fixture",
+    "steps": "1. Filter → Serial No.<br>2. Nhập serial và Apply.<br>3. Đối chiếu ID.",
+    "expected": "Có đúng tài sản khớp serial; không giả định Search mặc định tìm cả mã khi chưa xác minh.",
+    "evidence": "E-AST-01, UI filter Serial No.",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-19",
+    "title": "Search không có kết quả — P2",
+    "precondition": "Token không tồn tại",
+    "input": "`notfoundasset_<RUN>`",
+    "steps": "1. Nhập Search, Enter.<br>2. Chờ danh sách cập nhật.<br>3. Kiểm tra hàng dữ liệu và empty state.",
+    "expected": "Không còn dòng tài sản, có thông báo trạng thái rỗng; không còn hàng cũ. Chuỗi thông báo exact cần ghi khi chạy, chưa khảo sát probe của Assets.",
+    "evidence": "E-AST-01, UI; expected đề xuất",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-20",
+    "title": "Lọc Category — P1",
+    "precondition": "A_QUERY có hai category và fixture dương",
+    "input": "Category đã ghi",
+    "steps": "1. Filter → Category.<br>2. Apply.<br>3. Kiểm tra các nhóm/hàng.",
+    "expected": "Kết quả đều thuộc category đã chọn; bản ghi khác category bị loại; có fixture dương.",
+    "evidence": "E-AST-01/04, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-21",
+    "title": "Lọc Status=Available — P1",
+    "precondition": "Có fixture Available và In Use",
+    "input": "Available",
+    "steps": "1. Chọn Available qua Filter hoặc quick filter, ghi cách chọn.<br>2. Chờ kết quả.<br>3. Đối chiếu Status.",
+    "expected": "Chỉ có tài sản Available trong phạm vi; không dùng từ Assigned thay cho In Use.",
+    "evidence": "E-AST-01/04, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-22",
+    "title": "Kết hợp Category và Status — P2",
+    "precondition": "Có fixture khớp cả hai và chỉ khớp một",
+    "input": "Category=Laptops nếu có; Status=Available",
+    "steps": "1. Chọn cả hai tiêu chí.<br>2. Apply.<br>3. Đối chiếu tập ID.",
+    "expected": "Chỉ có tài sản khớp đồng thời; không chấp nhận kết quả rỗng làm bằng chứng nếu fixture dương chưa xuất hiện.",
+    "evidence": "E-AST-01, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-23",
+    "title": "Phân trang trong một nhóm Category — P2",
+    "precondition": "A_PAGE; nhóm có ít nhất 2 trang",
+    "input": "Trang 1 → 2 của đúng nhóm",
+    "steps": "1. Mở nhóm cần kiểm tra, ghi serial trang 1.<br>2. Next trong chính nhóm đó.<br>3. Ghi trang 2, quay lại.",
+    "expected": "Trang của đúng nhóm thay đổi; serial không lặp khi dữ liệu không đổi; nhóm khác không bị hiểu là trang tiếp theo.",
+    "evidence": "E-AST-01, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-24",
+    "title": "Collapse All và Expand All — P3",
+    "precondition": "Assets đang Group by Category; có nhiều nhóm",
+    "input": "Collapse All → Expand All",
+    "steps": "1. Ghi tên nhóm.<br>2. Collapse All.<br>3. Expand All.<br>4. Đối chiếu nhóm và số bản ghi.",
+    "expected": "Thu gọn/mở rộng các nhóm tương ứng; không thay đổi dữ liệu hay filter. Không dùng tổng số hàng đang render làm tổng dataset.",
+    "evidence": "E-AST-01, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-25",
+    "title": "Hủy Delete — P1",
+    "precondition": "A_DELETE riêng, chưa cấp phát",
+    "input": "Serial fixture",
+    "steps": "1. Delete đúng hàng.<br>2. Hủy tại xác nhận.<br>3. Reload và tìm Serial.",
+    "expected": "Tài sản vẫn tồn tại, dữ liệu không thay đổi. Đọc nút xác nhận thực tế khi chạy.",
+    "evidence": "E-AST-01, UI Delete; chưa mở xác nhận",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-26",
+    "title": "Xóa một tài sản — P1",
+    "precondition": "A_DELETE riêng không có phụ thuộc cản xóa; A_OTHER",
+    "input": "Serial/ID fixture",
+    "steps": "1. Delete đúng hàng, xác nhận.<br>2. Reload, tìm Serial.<br>3. Kiểm tra đối chứng.",
+    "expected": "Fixture không còn sau reload; A_OTHER vẫn có. Không xóa tài sản đang gán của seed.",
+    "evidence": "E-AST-01, UI; chưa thực thi",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-27",
+    "title": "Export Excel — P2",
+    "precondition": "Có fixture, ghi filter, nhóm, phạm vi export và cột chọn",
+    "input": "Excel (.xlsx)",
+    "steps": "1. Actions → Export.<br>2. Chọn Excel, cột/phạm vi được UI cung cấp.<br>3. Tải và đọc file.",
+    "expected": "File XLSX có nội dung; cột và tập bản ghi khớp phạm vi xác nhận. Không chỉ kiểm tra tên/đuôi file.",
+    "evidence": "E-AST-08, UI/DOM export",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-28",
+    "title": "Tạo Asset Allocation — P1",
+    "precondition": "AL_NEW riêng; có ảnh thử hợp lệ",
+    "input": "Asset, Assigned To, Assigned By, Assign Condition Images",
+    "steps": "1. Requests & Allocation → Asset Allocation → Create.<br>2. Chọn tài sản và người nhận/người giao, ảnh.<br>3. Save.<br>4. Reload tab Allocation và mở tài sản.",
+    "expected": "Có allocation gắn đúng tài sản/người nhận/người giao; Assigned Date được hệ thống ghi; asset không còn sẵn cho allocation mới. Đối chiếu Status UI In Use, không yêu cầu Assigned.",
+    "evidence": "E-AST-04/05, UI; tác dụng lưu chưa chạy",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-29",
+    "title": "Allocation thiếu Assigned To — P1",
+    "precondition": "AL_NEW; các trường khác hợp lệ kể cả ảnh",
+    "input": "Assigned To chưa chọn",
+    "steps": "1. Mở Allocation Create.<br>2. Điền phần còn lại.<br>3. Save.",
+    "expected": "Không tạo allocation; có lỗi yêu cầu người nhận; tài sản chưa bị gán.",
+    "evidence": "E-AST-05, HTML required",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-30",
+    "title": "Allocation thiếu ảnh bàn giao — P1",
+    "precondition": "AL_NEW; Asset/Assigned To/By hợp lệ",
+    "input": "Assign Condition Images trống",
+    "steps": "1. Điền các lựa chọn.<br>2. Không chọn ảnh.<br>3. Save.",
+    "expected": "Không tạo allocation; trường ảnh báo thiếu dữ liệu. Đây là vị trí upload ảnh đã quan sát, không phải form Asset Creation.",
+    "evidence": "E-AST-05, HTML required",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-31",
+    "title": "Không cấp phát lại tài sản đang In Use — P1",
+    "precondition": "Allocation riêng đang hoạt động; biết Serial/ID",
+    "input": "Asset đã được gán",
+    "steps": "1. Mở Allocation Create mới.<br>2. Kiểm tra các option Asset theo ID, kể cả search trong dropdown nếu có.<br>3. Đối chiếu tài sản đang Available.",
+    "expected": "Tài sản đang gán không phải lựa chọn có thể cấp phát mới; có tài sản Available đối chứng. Chỉ kiểm tra UI; chống request giả mạo phải là case khác.",
+    "evidence": "E-AST-05, UI option Available; quy tắc chống trùng cấp phát đề xuất",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-32",
+    "title": "Thu hồi với Healthy — P1",
+    "precondition": "AL_ACTIVE riêng",
+    "input": "Return Status=Healthy; Return Date≥Assigned Date; Return Condition=`Thiết bị hoạt động bình thường`; ảnh thử nếu UI yêu cầu",
+    "steps": "1. Chọn Return đúng allocation.<br>2. Điền form và Save.<br>3. Reload Allocation, Asset và History.",
+    "expected": "Allocation ghi Returned, ngày/tình trạng đúng; lịch sử tương ứng; tài sản Available và có thể được chọn cấp phát lại. Đây là tiêu chí luồng trả bình thường, chưa được probe lưu.",
+    "evidence": "E-AST-04/06/07, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-33",
+    "title": "Ghi nhận Return Status=Major damage — P1",
+    "precondition": "AL_ACTIVE riêng",
+    "input": "Major damage; Return Date hợp lệ; mô tả hư hỏng thử",
+    "steps": "1. Return đúng allocation.<br>2. Chọn Major damage, điền các trường UI yêu cầu.<br>3. Save và mở lại Allocation/History.",
+    "expected": "Allocation và History lưu đúng Major damage, đúng ngày và người/tài sản. Không tự đòi asset đổi thành Damaged/Under Maintenance; tác dụng lên Status được ghi Actual và chờ đặc tả riêng.",
+    "evidence": "E-AST-06/07, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-34",
+    "title": "Tra cứu Asset History — P2",
+    "precondition": "AL_RETURNED riêng; biết ID, nhân viên, ngày giao/trả",
+    "input": "Asset/Employee tương ứng",
+    "steps": "1. Mở Asset History.<br>2. Lọc Asset, thêm Employee nếu cần.<br>3. Đối chiếu từng cột với fixture.",
+    "expected": "Có đúng lịch sử phân bổ của tài sản/người đó; Assigned Date, Returned Date và Return Status khớp; không lẫn serial cùng tên.",
+    "evidence": "E-AST-07, UI",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "AST-V2-35",
+    "title": "Mặc định Assigned By là tài khoản hiện tại — P2",
+    "precondition": "Đăng nhập Admin demo, chưa mở form cũ; chưa Save",
+    "input": "Người dùng hiện tại",
+    "steps": "1. Mở Allocation Create mới.<br>2. Đọc Assigned By và đối chiếu tài khoản hiện tại.<br>3. Đóng form.",
+    "expected": "Với phiên Admin đã khảo sát, Assigned By mặc định Adam Admin; không tạo allocation khi chỉ mở/đóng. Nếu chạy tài khoản khác, expected phải dựa vào mặc định được xác nhận cho vai trò đó.",
+    "evidence": "E-AST-05, UI/DOM default",
+    "source": "docs/test-cases/Assets.md"
+  },
+  {
+    "id": "MTG-V2-01",
+    "title": "Tạo cuộc họp với các trường hỗ trợ — P1",
+    "precondition": "M_FULL; template và người tham gia hợp lệ",
+    "input": "M_FULL",
+    "steps": "1. Meetings → Create.<br>2. Nhập Title/Date, chọn Employees/Manager/Answerable Employees/Template.<br>3. Save.<br>4. Tìm theo RUN và mở chi tiết.",
+    "expected": "Có một cuộc họp mới; Date, các nhóm người và template khớp khi mở lại. Không yêu cầu status Scheduled, link online hoặc email tự gửi.",
+    "evidence": "E-MTG-01/02/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-02",
+    "title": "Tạo chỉ với trường bắt buộc — P1",
+    "precondition": "M_MIN",
+    "input": "Title, Date, Employees, Manager; hai trường tùy chọn trống",
+    "steps": "1. Create.<br>2. Điền M_MIN.<br>3. Save và mở lại.",
+    "expected": "Tạo được cuộc họp; thiếu Template/Answerable Employees không ngăn lưu. Manager vẫn phải chọn, khác với bộ gốc chỉ điền Title/Employee/Date.",
+    "evidence": "E-MTG-02/03, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-03",
+    "title": "Save form trống — P1",
+    "precondition": "Create mới",
+    "input": "Mọi trường chưa nhập/chọn",
+    "steps": "1. Create.<br>2. Save.<br>3. Chờ form phản hồi.",
+    "expected": "Không tạo cuộc họp; Title, Date, Employees, Manager có lỗi `This field is required.`.",
+    "evidence": "E-MTG-03, Probe",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-04",
+    "title": "Thiếu riêng Title — P1",
+    "precondition": "M_MIN hợp lệ ngoài Title",
+    "input": "Title rỗng",
+    "steps": "1. Điền Date và người tham gia/quản lý.<br>2. Để Title rỗng.<br>3. Save.",
+    "expected": "Không lưu; có lỗi thiếu Title.",
+    "evidence": "E-MTG-02/03",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-05",
+    "title": "Thiếu riêng Date — P1",
+    "precondition": "M_MIN hợp lệ ngoài Date",
+    "input": "Date rỗng",
+    "steps": "1. Điền các trường khác.<br>2. Để Date rỗng.<br>3. Save.",
+    "expected": "Không lưu; có lỗi thiếu Date.",
+    "evidence": "E-MTG-02/03",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-06",
+    "title": "Thiếu riêng Employees — P1",
+    "precondition": "M_MIN hợp lệ ngoài Employees",
+    "input": "Employees không chọn",
+    "steps": "1. Nhập Title/Date, chọn Manager.<br>2. Không chọn Employees.<br>3. Save.",
+    "expected": "Không lưu; lỗi thiếu Employees. Không coi đây là trường tùy chọn chỉ vì HTML không có required.",
+    "evidence": "E-MTG-03, Probe server validation",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-07",
+    "title": "Thiếu riêng Manager — P1",
+    "precondition": "M_MIN hợp lệ ngoài Manager",
+    "input": "Manager không chọn",
+    "steps": "1. Nhập các trường còn lại.<br>2. Không chọn Manager.<br>3. Save.",
+    "expected": "Không lưu; lỗi thiếu Manager.",
+    "evidence": "E-MTG-02/03",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-08",
+    "title": "Title 99 ký tự — P2",
+    "precondition": "M_MIN, tiêu đề không trùng fixture khác",
+    "input": "Title=`A` lặp 99; lưu ID sau tạo",
+    "steps": "1. Create với Title 99 ký tự.<br>2. Save.<br>3. Mở lại Edit để đọc value.",
+    "expected": "Lưu đủ 99 ký tự, không bị cắt.",
+    "evidence": "E-MTG-02, HTML maxlength=100",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-09",
+    "title": "Title đúng 100 ký tự — P2",
+    "precondition": "M_MIN; ghi ID sau tạo",
+    "input": "Title=`B` lặp 100",
+    "steps": "1. Nhập Title và phần còn lại.<br>2. Save.<br>3. Mở lại Edit.",
+    "expected": "Lưu được đủ 100 ký tự.",
+    "evidence": "E-MTG-02, HTML",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-10",
+    "title": "Chặn ký tự thứ 101 của Title trên UI — P2",
+    "precondition": "Create mới",
+    "input": "100 ký tự rồi gõ thêm C",
+    "steps": "1. Gõ/paste đủ 100 ký tự.<br>2. Gõ C.<br>3. Đọc value, không Save.",
+    "expected": "Title không vượt 100 ký tự. Không dùng giới hạn 200 hoặc yêu cầu tối thiểu 2 ký tự chưa xác minh.",
+    "evidence": "E-MTG-02, HTML",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-11",
+    "title": "Title tiếng Việt — P2",
+    "precondition": "M_MIN",
+    "input": "`Đánh giá hiệu suất quý 4 <RUN>` trong 100 ký tự",
+    "steps": "1. Tạo với tiêu đề có dấu.<br>2. Save.<br>3. Tìm và mở lại.",
+    "expected": "Lưu/hiển thị đúng dấu tiếng Việt; không lỗi mã hóa.",
+    "evidence": "E-MTG-02, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-12",
+    "title": "Chọn nhiều Employees — P1",
+    "precondition": "Có ít nhất 2 người tham gia hợp lệ",
+    "input": "Hai Employee ID phân biệt, M_MIN còn lại",
+    "steps": "1. Create, chọn 2 Employees.<br>2. Save.<br>3. Mở Details và Edit.",
+    "expected": "Cả hai người được lưu đúng, không lặp một người hoặc mất lựa chọn. Không kiểm tra bằng số ảnh avatar đơn thuần.",
+    "evidence": "E-MTG-02/04, multi-select",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-13",
+    "title": "Chọn nhiều Manager — P2",
+    "precondition": "Có ít nhất 2 lựa chọn Manager đang có",
+    "input": "Hai Manager ID, M_MIN còn lại",
+    "steps": "1. Create và chọn hai Manager.<br>2. Save.<br>3. Mở chi tiết/Edit.",
+    "expected": "Lưu đúng tập Manager đã chọn, không chỉ giữ lựa chọn cuối.",
+    "evidence": "E-MTG-02, multi-select",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-14",
+    "title": "Gắn Question Template — P1",
+    "precondition": "Có template Performance Review hoặc template demo đã kiểm tra nội dung",
+    "input": "M_MIN + template thực tế",
+    "steps": "1. Create, chọn Template.<br>2. Save.<br>3. Mở Details rồi Edit.",
+    "expected": "Template đã chọn được lưu đúng. Không tự suy ra thang điểm hoặc việc câu trả lời đã tồn tại.",
+    "evidence": "E-MTG-02/07, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-15",
+    "title": "Lưu Answerable Employees — P2",
+    "precondition": "M_FULL; chọn người nằm trong phạm vi nghiệp vụ hợp lệ",
+    "input": "Ít nhất 1 Answerable Employee",
+    "steps": "1. Chọn người tham gia/quản lý và Answerable Employees.<br>2. Save.<br>3. Mở lại Details/Edit.",
+    "expected": "Tập người có thể trả lời được lưu đúng lựa chọn. Case này kiểm tra dữ liệu lưu, không chứng minh phân quyền Answer trên mọi tài khoản.",
+    "evidence": "E-MTG-02/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-16",
+    "title": "Cập nhật Title — P1",
+    "precondition": "M_EDIT riêng; ghi ID và dữ liệu cũ",
+    "input": "Title mới trong 100 ký tự",
+    "steps": "1. Edit đúng ID.<br>2. Đổi Title và Save.<br>3. Reload và mở lại.",
+    "expected": "Title mới được lưu; Date, Employees, Manager, Template không đổi.",
+    "evidence": "E-MTG-01/04, UI Edit",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-17",
+    "title": "Đổi lịch qua Edit Date — P1",
+    "precondition": "M_EDIT riêng, biết múi giờ ứng dụng",
+    "input": "Date=D2 lúc 15:00",
+    "steps": "1. Edit → đổi Date.<br>2. Save.<br>3. Reload, mở Details/Edit.",
+    "expected": "Date mới được lưu và hiển thị đúng quy đổi thời gian của ứng dụng. Không đòi nút Reschedule riêng, status Scheduled hoặc email.",
+    "evidence": "E-MTG-02/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-18",
+    "title": "Hủy Edit không Save — P2",
+    "precondition": "M_EDIT, ghi Title/Date cũ",
+    "input": "Đổi tạm Title",
+    "steps": "1. Edit và nhập Title khác.<br>2. Đóng form bằng Close.<br>3. Mở lại đúng ID.",
+    "expected": "Title/Date đã lưu không đổi; đóng form không cập nhật cuộc họp.",
+    "evidence": "E-MTG-02, UI Close",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-19",
+    "title": "Xem chi tiết đúng cuộc họp — P1",
+    "precondition": "Fixture biết Title/Date/Employees/Managers/Template",
+    "input": "ID fixture",
+    "steps": "1. Bấm Title đúng hàng.<br>2. Chờ Details.<br>3. Đối chiếu từng trường.",
+    "expected": "Modal hiển thị đúng cuộc họp và các nhóm người. Nếu Title trùng, dùng ID/Date để xác định, không chọn mù hàng đầu.",
+    "evidence": "E-MTG-04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-20",
+    "title": "Thêm MoM qua Response — P1",
+    "precondition": "M_MOM riêng chưa có biên bản; tài khoản có nút Add MoM",
+    "input": "`Nhân viên đạt KPI 95%, cần cải thiện giao tiếp. <RUN>`",
+    "steps": "1. Chọn Add MoM đúng cuộc họp.<br>2. Chờ Add Response và editor Response.<br>3. Nhập nội dung, Save.<br>4. Reload và mở Minutes of Meeting.",
+    "expected": "Biên bản được lưu vào đúng cuộc họp và đọc lại đúng nội dung; cuộc họp đối chứng không đổi. Không tìm ô Meeting Notes/Save Notes không có trên UI đã khảo sát.",
+    "evidence": "E-MTG-04/05, UI editor; lưu chưa chạy",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-21",
+    "title": "Đóng editor MoM không lưu — P2",
+    "precondition": "M_MOM riêng, ghi nội dung hiện có",
+    "input": "Nội dung nháp khác",
+    "steps": "1. Add MoM, nhập nháp vào Response.<br>2. Close, không Save.<br>3. Reload và xem Minutes of Meeting.",
+    "expected": "Biên bản đã lưu không thay đổi; không có nội dung nháp. Không giả định có tính năng Edit Notes riêng.",
+    "evidence": "E-MTG-05, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-22",
+    "title": "Answer bị vô hiệu khi chưa có Template — P2",
+    "precondition": "M_NO_TEMPLATE, cùng vai trò Admin đã khảo sát",
+    "input": "Không chọn template",
+    "steps": "1. Mở Details của fixture.<br>2. Đọc Question Template và trạng thái Answer.<br>3. Không gửi câu trả lời.",
+    "expected": "Template hiển thị None; Answer disabled trong cấu hình/vai trò này. Việc có template chưa đủ để tự kết luận mọi người có quyền Answer.",
+    "evidence": "E-MTG-04/07, UI observed",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-23",
+    "title": "Tìm theo Title — P1",
+    "precondition": "M_QUERY, có Title duy nhất và đối chứng",
+    "input": "Title fixture",
+    "steps": "1. Điền Search, Enter.<br>2. Chờ bảng cập nhật.<br>3. Đối chiếu Title/ID.",
+    "expected": "Có cuộc họp cần tìm; không còn cuộc họp Title không khớp.",
+    "evidence": "E-MTG-01, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-24",
+    "title": "Tìm không có kết quả — P1",
+    "precondition": "Token chắc chắn không tồn tại",
+    "input": "`notfoundmeeting_<RUN>`",
+    "steps": "1. Nhập Search.<br>2. Enter.<br>3. Chờ empty state.",
+    "expected": "Không có hàng cuộc họp; hiển thị `No filtered records found at the moment`.",
+    "evidence": "E-MTG-06, Probe",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-25",
+    "title": "Xóa từ khóa Search — P2",
+    "precondition": "Đang có Search rỗng kết quả; ghi baseline",
+    "input": "Search rỗng",
+    "steps": "1. Xóa Search và Enter.<br>2. Chờ bảng.<br>3. So sánh với baseline.",
+    "expected": "Các fixture baseline trong phạm vi filter xuất hiện lại; tag Search cũ không còn.",
+    "evidence": "E-MTG-01/06, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-26",
+    "title": "Lọc theo Employee — P1",
+    "precondition": "M_QUERY có cuộc họp chứa và không chứa Employee chọn",
+    "input": "Employee thực tế",
+    "steps": "1. Filter → Employee, chọn người.<br>2. Apply.<br>3. Mở Details các kết quả để kiểm tra tập Employees.",
+    "expected": "Chỉ có cuộc họp chứa Employee đã chọn; có fixture dương. Dùng filter này thay giả định Search chắc chắn tìm tên nhân viên.",
+    "evidence": "E-MTG-01/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-27",
+    "title": "Lọc theo Manager — P2",
+    "precondition": "M_QUERY có Manager phân biệt",
+    "input": "Manager thực tế",
+    "steps": "1. Filter → Manager.<br>2. Apply.<br>3. Đối chiếu Details.",
+    "expected": "Chỉ có cuộc họp có Manager đã chọn; loại fixture âm.",
+    "evidence": "E-MTG-01/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-28",
+    "title": "Lọc theo Question Template — P2",
+    "precondition": "Có fixture dùng Template và fixture không dùng",
+    "input": "Template đã chuẩn bị",
+    "steps": "1. Filter → Question Template.<br>2. Apply.<br>3. Đối chiếu Details.",
+    "expected": "Chỉ có cuộc họp gắn Template đó; fixture không template bị loại.",
+    "evidence": "E-MTG-01/07, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-29",
+    "title": "Lọc khoảng ngày bao gồm hai đầu — P1",
+    "precondition": "M_RANGE; xác nhận ngày hiển thị theo múi giờ app",
+    "input": "Date greater than or equal=D1; Date less than or equal=D2",
+    "steps": "1. Chọn hai giới hạn ngày trong Filter.<br>2. Apply.<br>3. Đối chiếu ngày/ID kết quả.",
+    "expected": "Giữ cuộc họp ngày D1 và D2, loại cuộc họp ngoài khoảng. Dùng nhãn gte/lte đang có; không giả định có preset This Week. Nếu boundary sai, ghi lỗi so với nhãn UI, không sửa expected để khớp lỗi.",
+    "evidence": "E-MTG-01, UI filter",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-30",
+    "title": "Lọc Active — P2",
+    "precondition": "Có fixture active và archived riêng, ghi ID",
+    "input": "Active=Yes",
+    "steps": "1. Filter → Active=Yes.<br>2. Apply.<br>3. Đối chiếu ID fixture.",
+    "expected": "Có fixture active; loại fixture archived. Active là trạng thái lưu trữ, không tương đương Completed/Cancelled.",
+    "evidence": "E-MTG-01/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-31",
+    "title": "Sắp xếp Date hai chiều — P2",
+    "precondition": "Có ít nhất 3 fixture khác Date; filter ổn định",
+    "input": "Date tăng rồi giảm",
+    "steps": "1. Nhấn header Date, ghi chiều sort.<br>2. Parse Date các hàng.<br>3. Đảo chiều và kiểm tra lại.",
+    "expected": "Thời điểm theo đúng chiều sort; tập bản ghi không đổi. Không so sánh trực tiếp chuỗi ngày đã format theo chữ.",
+    "evidence": "E-MTG-01, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-32",
+    "title": "Archive cuộc họp — P1",
+    "precondition": "M_ARCHIVE riêng active; ghi dữ liệu, có quyền Archive",
+    "input": "ID fixture",
+    "steps": "1. Bấm Archive đúng ID.<br>2. Đọc/xác nhận cảnh báo nếu có.<br>3. Reload, lọc Active=No và mở lại fixture.",
+    "expected": "Fixture chuyển sang archived/inactive và còn truy xuất được qua phạm vi archived; không mất nội dung như Delete. Không gọi Archive là Cancel Meeting. Cơ chế khôi phục cần ghi riêng trước cleanup.",
+    "evidence": "E-MTG-01/04, UI Archive; chưa thực thi",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-33",
+    "title": "Hủy Delete — P1",
+    "precondition": "M_DELETE riêng; M_OTHER đối chứng",
+    "input": "ID fixture",
+    "steps": "1. Delete đúng hàng.<br>2. Chọn hủy trên xác nhận.<br>3. Reload, tìm đúng fixture.",
+    "expected": "Cuộc họp và dữ liệu vẫn tồn tại; đối chứng không đổi. Ghi loại dialog thực tế khi chạy.",
+    "evidence": "E-MTG-01/04, UI Delete; xác nhận chưa khảo sát",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-34",
+    "title": "Xóa cuộc họp — P1",
+    "precondition": "M_DELETE riêng, không có phụ thuộc cản xóa",
+    "input": "ID fixture",
+    "steps": "1. Delete và xác nhận đúng cuộc họp.<br>2. Reload, tìm Title/ID.<br>3. Kiểm tra M_OTHER.",
+    "expected": "Fixture không còn; M_OTHER vẫn tồn tại. Không yêu cầu toast `Meeting deleted successfully` chưa quan sát.",
+    "evidence": "E-MTG-01/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  },
+  {
+    "id": "MTG-V2-35",
+    "title": "Kết hợp Employee và Manager — P2",
+    "precondition": "M_QUERY có khớp cả hai, chỉ khớp Employee, chỉ khớp Manager",
+    "input": "Employee E và Manager M",
+    "steps": "1. Chọn hai filter.<br>2. Apply.<br>3. Đối chiếu tập ID và Details.",
+    "expected": "Chỉ có cuộc họp đồng thời chứa Employee E và Manager M; fixture chỉ khớp một điều kiện bị loại.",
+    "evidence": "E-MTG-01/04, UI",
+    "source": "docs/test-cases/Performance Meetings.md"
+  }
+]

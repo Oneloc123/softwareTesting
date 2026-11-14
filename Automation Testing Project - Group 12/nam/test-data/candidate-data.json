@@ -1,0 +1,9 @@
+{
+  "recruitment": "Software Engineer Hiring",
+  "alternateRecruitment": "Sales Representative Hiring",
+  "mobile": "0901234567",
+  "updatedMobile": "0988776655",
+  "invalidEmails": ["vana@", "vana.com"],
+  "nameMaxLength": 100,
+  "mobileMaxLength": 15
+}
